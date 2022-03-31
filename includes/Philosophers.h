@@ -6,7 +6,7 @@
 /*   By: jperras <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/29 11:01:25 by jperras           #+#    #+#             */
-/*   Updated: 2022/03/31 15:40:06 by jperras          ###   ########.fr       */
+/*   Updated: 2022/03/31 17:37:54 by jperras          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef PHILOSOPHERS_H
@@ -45,6 +45,7 @@ typedef struct s_philosophers
 	struct timeval end;
 	float	elapsed;
 	t_rules *rules;
+	int		died;
 
 }	t_philosophers;
 

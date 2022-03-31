@@ -6,7 +6,7 @@
 /*   By: jperras <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/29 17:15:34 by jperras           #+#    #+#             */
-/*   Updated: 2022/03/31 16:29:40 by jperras          ###   ########.fr       */
+/*   Updated: 2022/03/31 17:52:37 by jperras          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include <Philosophers.h>
@@ -34,13 +34,14 @@ void	ft_init_pthread(t_philosophers *philo)
 	while (i < philo[0].rules->nb_philo)
 	{
 		usleep(50);
+		philo[i].died = 0;
 		if(pthread_create(&thread[i], NULL, &routine, &(philo[i])) != 0)
 			;
 			//rules->Error = 1;
 		i++;
 	}
 	i = 0;
-	printf("%d\n",1);
+	//ft_dead(philo);
 	while (i < philo[0].rules->nb_philo)
 	{
 		pthread_join(thread[i], NULL);
