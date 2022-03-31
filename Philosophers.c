@@ -6,7 +6,7 @@
 /*   By: jperras <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/29 12:40:33 by jperras           #+#    #+#             */
-/*   Updated: 2022/03/29 17:41:05 by jperras          ###   ########.fr       */
+/*   Updated: 2022/03/31 16:29:26 by jperras          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,42 +14,40 @@
 
 void	*routine(void *void_args)
 {
-	t_rules *rules;
+	(void) void_args;
 
-	rules = (t_rules *) void_args;
-	//void	ft_eat();
-	//void	ft_sleep();
-	//void	ft_think();
-	
-	pthread_mutex_lock(&rules->mutex[0]);
-	printf("start\n");
-	sleep(3);
-	pthread_mutex_unlock(&rules->mutex[0]);
-	printf("end\n");
+
+	t_philosophers *philo;
+
+	philo = (t_philosophers *) void_args;
+	gettimeofday(&philo->start,NULL);
+
+	ft_eat(philo);
 	return(0);
 }
 
 int	main(int argc ,char **argv)
 {
+	(void) argc;
+	
 	t_rules	rules;
-	pthread_t	*thread;
-	int	i;
+	t_philosophers *philo;
+	int				i;
 
+	philo = NULL;
 	i = 0;
-	thread = malloc(sizeof(pthread_t) * ft_atoi(argv[1]));
 	rules.nb_philo = ft_atoi(argv[1]);
+	rules.time_to_die = ft_atoi(argv[2]);
+	rules.time_to_eat = ft_atoi(argv[3]);
+	rules.time_to_sleep = ft_atoi(argv[4]);
+	rules.number_of_times_each_philosopher_must_eat = ft_atoi(argv[5]);
 	ft_init_mutex(&rules);
-	while (i < ft_atoi(argv[1]))
+	philo = ft_init_philo(&rules, philo);
+	//rules.philo = philo 
+	while (i < rules.nb_philo)
 	{
-		if (pthread_create(&thread[i], NULL, &routine, &rules) != 0)
-				return(1);
+		philo[i].rules = &rules;
 		i++;
 	}
-	i = 0; 
-	while (i < ft_atoi(argv[1]))
-	{
-		pthread_join(thread[i], NULL);
-		i++;
-	}
-	return (1);
+	ft_init_pthread(philo);
 }

@@ -6,7 +6,7 @@
 /*   By: jperras <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/29 09:00:59 by jperras           #+#    #+#             */
-/*   Updated: 2022/03/29 13:46:41 by jperras          ###   ########.fr       */
+/*   Updated: 2022/03/31 08:38:46 by jperras          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 /*#include <stdio.h>
@@ -99,26 +99,28 @@ int main(int argc, char* argv[]) {
 #include <stdio.h>
 #include <pthread.h>
 #include <unistd.h>
+#include <sys/time.h>
 
+/*
 void* routine() {
     printf("Hello from threads\n");
     sleep(3);
     printf("Ending thread\n");
 }
+*/
+int main(int argc, char* argv[]) 
+{
+	struct timeval begin;
+	struct timeval end;
+	double elapsed;
+	gettimeofday(&begin,NULL);
+	usleep(100);
+	gettimeofday(&end, NULL);
+	elapsed = (end.tv_sec - begin.tv_sec) + (end.tv_usec - begin.tv_usec)/1000000.0;
+	printf("%lf",elapsed);
 
-int main(int argc, char* argv[]) {
-    pthread_t p1, p2;
-    if (pthread_create(&p1, NULL, &routine, NULL) != 0) {
-        return 1;
-    }
-    if (pthread_create(&p2, NULL, &routine, NULL) != 0) {
-        return 2;
-    }
-    if (pthread_join(p1, NULL) != 0) {
-        return 3;
-    }
-    if (pthread_join(p2, NULL) != 0) {
-        return 4;
-    }
-    return 0;
+
+
+
+
 }
