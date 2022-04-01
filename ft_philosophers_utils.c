@@ -6,7 +6,7 @@
 /*   By: jperras <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/30 09:07:49 by jperras           #+#    #+#             */
-/*   Updated: 2022/04/01 17:27:56 by jperras          ###   ########.fr       */
+/*   Updated: 2022/04/01 18:10:32 by jperras          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include <Philosophers.h>
@@ -23,10 +23,7 @@ long double	ft_time(struct timeval end, struct timeval begin)
 void	ft_eat(t_philosophers *philo)
 {
 	if (philo->rules->death != 1 && philo->id % 2)
-	{
-		usleep(2000);
 		ft_fork(philo);
-	}
 	else if (philo->rules->death != 1)
 		ft_right_fork(philo);
 }
