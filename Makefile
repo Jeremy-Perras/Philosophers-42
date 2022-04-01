@@ -6,13 +6,13 @@
 #    By: jperras <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/30 08:32:21 by jperras           #+#    #+#              #
-#    Updated: 2022/03/30 13:48:50 by jperras          ###   ########.fr        #
+#    Updated: 2022/04/01 14:03:37 by jperras          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = philo
 
-SRCS = Philosophers.c ft_philosophers_init.c ft_atoi.c ft_philosophers_utils.c 
+SRCS = Philosophers.c ft_philosophers_init.c ft_atoi.c ft_philosophers_utils.c ft_fork.c
 
 CC = gcc
 

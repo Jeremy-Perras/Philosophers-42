@@ -6,57 +6,80 @@
 /*   By: jperras <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/30 09:07:49 by jperras           #+#    #+#             */
-/*   Updated: 2022/03/31 18:13:10 by jperras          ###   ########.fr       */
+/*   Updated: 2022/04/01 17:27:56 by jperras          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include <Philosophers.h>
 
 
-double	ft_time(struct timeval end, struct timeval begin)
+long double	ft_time(struct timeval end, struct timeval begin)
 {	
-	double elapsed;
-	elapsed = (end.tv_sec - begin.tv_sec) + (end.tv_usec - begin.tv_usec)/1000000.0;
+	long double elapsed;
+
+	elapsed = (end.tv_sec - begin.tv_sec) * 1000.0 + (end.tv_usec - begin.tv_usec) / 1000.0; 
 	return(elapsed);
 }
 
 void	ft_eat(t_philosophers *philo)
 {
-	if (philo->id % 2)
-		usleep(20000);
-	sleep(1);
-	pthread_mutex_lock(&(philo->rules->mutex[philo->rightid]));
-	gettimeofday(&philo->begin, NULL);
-	printf("%lf %d has taken a fork\n",ft_time(philo->begin, philo->rules->start), philo->id);
-	pthread_mutex_lock(&(philo->rules->mutex[philo->id]));
-	gettimeofday(&philo->begin, NULL);
-	printf("%lf %d has taken a fork\n",ft_time(philo->begin, philo->rules->start), philo->id);
-	printf("%lf %d is eating\n",ft_time(philo->begin, philo->rules->start), philo->id);
-	gettimeofday(&philo->start, NULL);
-	pthread_mutex_unlock(&(philo->rules->mutex[philo->id]));
-	pthread_mutex_unlock(&(philo->rules->mutex[philo->rightid]));
+	if (philo->rules->death != 1 && philo->id % 2)
+	{
+		usleep(2000);
+		ft_fork(philo);
+	}
+	else if (philo->rules->death != 1)
+		ft_right_fork(philo);
 }
-
 
 void	ft_dead(t_philosophers *philo)
 {
 	struct timeval elapsed;
 	int				i;
+	int				flag;
+	int 			j;
 
 	i = 0;
-	//printf("elapsed %lf",ft_time(elapsed, philo[i].start), philo[i].rules->time_to_die);
-	
-	while (!philo[i].died)
+	flag = 0;
+	usleep(philo[i].rules->nb_philo * 50);
+	j = philo[i].rules->nb_philo;
+	while (flag == 0 && philo[i].rules->win != 1)
 	{
-		while(i<philo[i]->rules->nb_philo)
-
-			{
+		while(i < j && flag == 0 && philo[i].rules->win != 1)
+		{
 			gettimeofday(&elapsed, NULL);
-			if(ft_time(elapsed, philo[i].start) > philo[i].rules->time_to_die)
+			if(ft_time(elapsed, philo[i].life) >= philo[i].rules->time_to_die)
 			{
-				philo[i].died = 1;
-				printf("%lf died %d\n",ft_time(elapsed, philo[i].start), i);
+				philo[i].rules->death = 1;
+				printf("%Lf %d died \n",ft_time(elapsed, philo->start), i);
+				flag = 1;
 			}
 			i++;
 		}
+		i = 0;
 	}
+}
+
+void	ft_sleep(t_philosophers *philo)
+{
+	struct timeval begin;
+	struct timeval end;
+	int				flag;
+
+	gettimeofday(&begin, NULL);
+	printf("%Lf %d is sleeping\n",ft_time(begin, philo->start), philo->id);
+	flag = 0;
+	while (flag != 1)
+	{
+		gettimeofday(&end, NULL);
+		if(ft_time(end, begin) >= philo->rules->time_to_sleep)
+			flag = 1;
+	}
+}
+
+void	ft_think(t_philosophers *philo)
+{
+	struct timeval begin;
+
+	gettimeofday(&begin, NULL);
+	printf("%Lf %d is thinking\n",ft_time(begin, philo->start), philo->id);
 }
