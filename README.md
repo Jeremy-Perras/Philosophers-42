@@ -1,7 +1,7 @@
 # Philosophers-42
 
 ## Table of content :
-* [What is printf ?](#what-is-Philosophers-)
+* [What is Philosophers ?](#what-is-Philosophers-)
 * [What is in it ?](#what-is-it-)
 * [How does is work ?](#how-does-is-work-)
 
