@@ -10,9 +10,13 @@
  
 ### What is it ?
 <a href="https://zupimages.net/viewer.php?id=22/13/dyc0.png"><img src="https://zupimages.net/up/22/13/dyc0.png" alt="" /></a>
-Each philosopher eat spaghetti but they need two forks for eat them. Each philosophers start with one fork, and need too eat before time to die is ended. If they eat the time to die is restart until next meal.
+
+Each philosopher eat spaghetti but they need two forks for eat them. Each philosophers start with one fork, and need too eat before time to die is ended. If they eat the time to die is restart until next meal. They do routine : 
+
+**eat or wait for fork -> sleep -> think -> eat or wait for fork.**
+
 ## How I code this ?
- 
+  Each philosopher is a thread and they do routine until one is dead. Icheck death in main programm and we loop until someone is dead or they do the number of times each philosophers eat.
 
 ### How does is work ?
 The Makefile contain 4 rules : all clean fclean and re.
