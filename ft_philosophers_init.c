@@ -6,7 +6,7 @@
 /*   By: jperras <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/29 17:15:34 by jperras           #+#    #+#             */
-/*   Updated: 2022/04/01 16:27:53 by jperras          ###   ########.fr       */
+/*   Updated: 2022/04/02 10:29:22 by jperras          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include <Philosophers.h>
@@ -26,7 +26,7 @@ void	ft_init_mutex(t_rules *rules)
 
 void	*ft_init_pthread(t_philosophers *philo)
 {
-	pthread_t *thread;
+	pthread_t	*thread;
 	int			i;
 
 	i = 0;
@@ -35,7 +35,7 @@ void	*ft_init_pthread(t_philosophers *philo)
 	{
 		usleep(50);
 		gettimeofday(&philo[i].start, NULL);
-		if(pthread_create(&thread[i], NULL, &routine, &(philo[i])) != 0)
+		if (pthread_create(&thread[i], NULL, &routine, &(philo[i])) != 0)
 			return (0);
 		i++;
 	}
@@ -51,7 +51,7 @@ t_philosophers	*ft_init_philo(t_rules *rules, t_philosophers *philo)
 
 	i = 0;
 	philo = malloc(sizeof(t_philosophers) * rules->nb_philo);
-	while ( i < rules->nb_philo)
+	while (i < rules->nb_philo)
 	{
 		if (i == 0)
 		{
@@ -74,33 +74,33 @@ t_philosophers	*ft_init_philo(t_rules *rules, t_philosophers *philo)
 	return (philo);
 }
 
-int	ft_wait(char **argv)
+static int	ft_wait(char **argv)
 {
 	int				flag;
-	struct timeval begin;
-	struct timeval end;
+	struct timeval	begin;
+	struct timeval	end;
 	double			i;
-	
-	gettimeofday(&begin,NULL);
+
+	gettimeofday(&begin, NULL);
 	gettimeofday(&end, NULL);
 	i = ft_atoi(argv[2]);
-	while(ft_time(end, begin) <= i)
+	while (ft_time(end, begin) <= i)
 		gettimeofday(&end, NULL);
 	printf("%Lf %d died", ft_time(end, begin), 1);
 	flag = 2;
-	return(flag);
+	return (flag);
 }
 
 int	ft_check(int argc, char **argv)
 {
 	int	i;
-	int j ;
+	int	j;
 	int	flag;
 
 	i = 1;
 	j = 0;
 	flag = 0;
-	while (i < argc && !flag)	
+	while (i < argc && !flag)
 	{
 		while (argv[i][j] != '\0' && !flag)
 		{
@@ -115,5 +115,5 @@ int	ft_check(int argc, char **argv)
 		flag = ft_wait(argv);
 	if (!flag && ft_atoi(argv[1]) < 1)
 		flag = 1;
-	return	(flag);
+	return (flag);
 }

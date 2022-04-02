@@ -6,10 +6,24 @@
 /*   By: jperras <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/01 13:58:25 by jperras           #+#    #+#             */
-/*   Updated: 2022/04/01 18:21:27 by jperras          ###   ########.fr       */
+/*   Updated: 2022/04/02 10:36:51 by jperras          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "Philosophers.h"
+
+static void	*ft_fork_next(t_philosophers *philo)
+{
+	printf("%Lf %d has taken a fork\n",
+		ft_time(philo->begin, philo->start), philo->id);
+	printf("%Lf %d is eating\n", ft_time(philo->begin, philo->start), philo->id);
+	gettimeofday(&philo->life, NULL);
+	gettimeofday(&philo->end, NULL);
+	while (ft_time(philo->end, philo->begin) < philo->rules->time_to_eat)
+		gettimeofday(&philo->end, NULL);
+	pthread_mutex_unlock(&(philo->rules->mutex[philo->rightid]));
+	pthread_mutex_unlock(&(philo->rules->mutex[philo->id]));
+	return (0);
+}
 
 void	*ft_fork(t_philosophers *philo)
 {
@@ -20,23 +34,32 @@ void	*ft_fork(t_philosophers *philo)
 		pthread_mutex_unlock(&(philo->rules->mutex[philo->id]));
 		return (0);
 	}
-	printf("%Lf %d has taken a fork\n", ft_time(philo->begin, philo->start), philo->id);
+	printf("%Lf %d has taken a fork\n",
+		ft_time(philo->begin, philo->start), philo->id);
 	pthread_mutex_lock(&(philo->rules->mutex[philo->rightid]));
 	gettimeofday(&philo->begin, NULL);
 	if (philo->rules->death == 1)
 	{
 		pthread_mutex_unlock(&(philo->rules->mutex[philo->rightid]));
 		pthread_mutex_unlock(&(philo->rules->mutex[philo->id]));
-		return(0);
+		return (0);
 	}
-	printf("%Lf %d has taken a fork\n",ft_time(philo->begin, philo->start), philo->id);
-	printf("%Lf %d is eating\n", ft_time(philo->begin, philo->start), philo->id);
+	ft_fork_next(philo);
+	return (0);
+}
+
+static void	*ft_right_fork_next(t_philosophers *philo)
+{	
+	printf("%Lf %d has taken a fork\n", ft_time(philo->begin, philo->start),
+		philo->id);
+	printf("%Lf %d is eating\n", ft_time(philo->begin, philo->start),
+		philo->id);
 	gettimeofday(&philo->life, NULL);
 	gettimeofday(&philo->end, NULL);
 	while (ft_time(philo->end, philo->begin) < philo->rules->time_to_eat)
 		gettimeofday(&philo->end, NULL);
-	pthread_mutex_unlock(&(philo->rules->mutex[philo->rightid]));
 	pthread_mutex_unlock(&(philo->rules->mutex[philo->id]));
+	pthread_mutex_unlock(&(philo->rules->mutex[philo->rightid]));
 	return (0);
 }
 
@@ -59,16 +82,7 @@ void	*ft_right_fork(t_philosophers *philo)
 		pthread_mutex_unlock(&(philo->rules->mutex[philo->rightid]));
 		return (0);
 	}
-	printf("%Lf %d has taken a fork\n", ft_time(philo->begin, philo->start),
-		philo->id);
-	printf("%Lf %d is eating\n", ft_time(philo->begin, philo->start),
-		philo->id);
-	gettimeofday(&philo->life, NULL);
-	gettimeofday(&philo->end, NULL);
-	while (ft_time(philo->end, philo->begin) < philo->rules->time_to_eat)
-		gettimeofday(&philo->end, NULL);
-	pthread_mutex_unlock(&(philo->rules->mutex[philo->id]));
-	pthread_mutex_unlock(&(philo->rules->mutex[philo->rightid]));
+	ft_right_fork_next(philo);
 	return (0);
 }
 
