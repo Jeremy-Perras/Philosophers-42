@@ -6,7 +6,7 @@
 /*   By: jperras <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/29 12:40:33 by jperras           #+#    #+#             */
-/*   Updated: 2022/04/02 11:23:14 by jperras          ###   ########.fr       */
+/*   Updated: 2022/04/02 12:08:49 by jperras          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include <Philosophers.h>
@@ -65,7 +65,7 @@ int	main(int argc, char **argv)
 	flag = ft_check(argc, argv);
 	if (flag == 1 || argc > 6 || argc < 5)
 	{
-		printf("Error");
+		write(2, "Error\n", 6);
 		return (1);
 	}
 	else if (flag == 2)
