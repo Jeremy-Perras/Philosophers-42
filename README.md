@@ -16,7 +16,7 @@ Each philosopher eat spaghetti but they need two forks for eat them. Each philos
 **eat or wait for fork -> sleep -> think -> eat or wait for fork.**
 
 ## How I code this ?
-  Each philosopher is a thread and they do routine until one is dead. Icheck death in main programm and we loop until someone is dead or they do the number of times each philosophers eat.
+  Each philosopher is a thread and they do routine until one is dead. I check death in main program and we loop until someone is dead or they do the number of times each philosophers eat.
 
 ### How does is work ?
 The Makefile contain 4 rules : all clean fclean and re.
