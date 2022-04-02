@@ -6,7 +6,7 @@
 /*   By: jperras <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/29 17:15:34 by jperras           #+#    #+#             */
-/*   Updated: 2022/04/02 10:29:22 by jperras          ###   ########.fr       */
+/*   Updated: 2022/04/02 11:24:40 by jperras          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include <Philosophers.h>
@@ -100,6 +100,8 @@ int	ft_check(int argc, char **argv)
 	i = 1;
 	j = 0;
 	flag = 0;
+	if	(argc > 6 || argc < 5)
+		flag = 1;
 	while (i < argc && !flag)
 	{
 		while (argv[i][j] != '\0' && !flag)
